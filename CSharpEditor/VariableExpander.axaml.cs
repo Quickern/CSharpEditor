@@ -52,7 +52,7 @@ namespace CSharpEditor
         IEnumerable
     }
 
-    internal class VariableExpander : UserControl
+    internal partial class VariableExpander : UserControl
     {
         public VariableExpander()
         {

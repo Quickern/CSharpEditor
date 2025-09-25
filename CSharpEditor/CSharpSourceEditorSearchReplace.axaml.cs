@@ -23,7 +23,7 @@ using Avalonia.Markup.Xaml;
 
 namespace CSharpEditor
 {
-    internal class CSharpSourceEditorSearchReplace : UserControl
+    internal partial class CSharpSourceEditorSearchReplace : UserControl
     {
         public static readonly DirectProperty<CSharpSourceEditorSearchReplace, bool> HasFocusProperty =
         AvaloniaProperty.RegisterDirect<CSharpSourceEditorSearchReplace, bool>(nameof(HasFocus), o => o.HasFocus);
@@ -35,9 +35,9 @@ namespace CSharpEditor
             private set { SetAndRaise(HasFocusProperty, ref _hasFocus, value); }
         }
 
-        public TextBox SearchBox { get => this.FindControl<TextBox>("SearchBox"); }
-        public TextBox ReplaceBox { get => this.FindControl<TextBox>("ReplaceBox"); }
-        public ToggleButton ReplaceToggle { get => this.FindControl<ToggleButton>("ReplaceToggle"); }
+        public TextBox SearchBox { get => this.FindControl<TextBox>("f_SearchBox"); }
+        public TextBox ReplaceBox { get => this.FindControl<TextBox>("f_ReplaceBox"); }
+        public ToggleButton ReplaceToggle { get => this.FindControl<ToggleButton>("f_ReplaceToggle"); }
 
         private CSharpSourceEditor Editor { get; }
 
@@ -74,7 +74,7 @@ namespace CSharpEditor
                 }
             };
 
-            this.FindControl<TextBox>("SearchBox").PropertyChanged += (s, e) =>
+            this.FindControl<TextBox>("f_SearchBox").PropertyChanged += (s, e) =>
             {
                 if (e.Property == TextBox.TextProperty)
                 {
@@ -82,7 +82,7 @@ namespace CSharpEditor
                 }
             };
 
-            this.FindControl<TextBox>("ReplaceBox").PropertyChanged += (s, e) =>
+            this.FindControl<TextBox>("f_ReplaceBox").PropertyChanged += (s, e) =>
             {
                 if (e.Property == TextBox.TextProperty)
                 {
@@ -132,22 +132,22 @@ namespace CSharpEditor
         {
             this.InitializeComponent();
 
-            this.FindControl<TextBox>("SearchBox").GotFocus += (s, e) =>
+            this.FindControl<TextBox>("f_SearchBox").GotFocus += (s, e) =>
             {
                 HasFocus = true;
             };
 
-            this.FindControl<TextBox>("ReplaceBox").GotFocus += (s, e) =>
+            this.FindControl<TextBox>("f_ReplaceBox").GotFocus += (s, e) =>
             {
                 HasFocus = true;
             };
 
-            this.FindControl<TextBox>("SearchBox").LostFocus += (s, e) =>
+            this.FindControl<TextBox>("f_SearchBox").LostFocus += (s, e) =>
             {
                 HasFocus = false;
             };
 
-            this.FindControl<TextBox>("ReplaceBox").LostFocus += (s, e) =>
+            this.FindControl<TextBox>("f_ReplaceBox").LostFocus += (s, e) =>
             {
                 HasFocus = false;
             };

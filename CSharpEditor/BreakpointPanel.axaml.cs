@@ -26,7 +26,7 @@ using System.Linq;
 
 namespace CSharpEditor
 {
-    internal class BreakpointPanel : UserControl
+    internal partial class BreakpointPanel : UserControl
     {
         public BreakpointPanel()
         {
@@ -42,7 +42,7 @@ namespace CSharpEditor
             };
         }
 
-        public bool IgnoreFurtherOccurrences => this.FindControl<ToggleButton>("IgnoreFurtherOccurrences").IsChecked == true;
+        public bool IgnoreFurtherOccurrences => this.FindControl<ToggleButton>("f_IgnoreFurtherOccurrences").IsChecked == true;
 
         public event EventHandler<EventArgs> ResumeClicked;
 
@@ -54,7 +54,7 @@ namespace CSharpEditor
         public void SetContent(BreakpointInfo breakpointInfo)
         {
             this.FindControl<StackPanel>("LocalVariablesContainer").Children.Clear();
-            this.FindControl<ToggleButton>("IgnoreFurtherOccurrences").IsChecked = false;
+            this.FindControl<ToggleButton>("f_IgnoreFurtherOccurrences").IsChecked = false;
 
             foreach (KeyValuePair<string, object> kvp in (from el in breakpointInfo.LocalVariables orderby el.Key ascending select el))
             {
@@ -65,7 +65,7 @@ namespace CSharpEditor
         public void SetContent(RemoteBreakpointInfo breakpointInfo)
         {
             this.FindControl<StackPanel>("LocalVariablesContainer").Children.Clear();
-            this.FindControl<ToggleButton>("IgnoreFurtherOccurrences").IsChecked = false;
+            this.FindControl<ToggleButton>("f_IgnoreFurtherOccurrences").IsChecked = false;
 
             foreach (KeyValuePair<string, (string, VariableTypes, object)> kvp in (from el in breakpointInfo.LocalVariables orderby el.Key ascending select el))
             {

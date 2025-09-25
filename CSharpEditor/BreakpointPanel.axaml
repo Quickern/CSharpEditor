@@ -93,7 +93,7 @@
             </StackPanel>
           </ToggleButton>
         </StackPanel>
-        <ToggleButton Padding="0" Width="165" HorizontalAlignment="Left" Margin="5,0,5,2" FontSize="12" Name="IgnoreFurtherOccurrences">
+        <ToggleButton Padding="0" Width="165" HorizontalAlignment="Left" Margin="5,0,5,2" FontSize="12" Name="f_IgnoreFurtherOccurrences">
           <TextBlock VerticalAlignment="Center" Margin="5, 2, 5, 2">Ignore further occurrences</TextBlock>
         </ToggleButton>
       </StackPanel>

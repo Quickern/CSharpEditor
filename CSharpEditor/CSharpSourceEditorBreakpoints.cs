@@ -22,6 +22,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Media;
 using System;
+using System.Globalization;
 
 namespace CSharpEditor
 {
@@ -82,12 +83,12 @@ namespace CSharpEditor
             }
         }
 
-        public bool BringIntoView(IControl target, Rect targetRect)
+        public bool BringIntoView(Control target, Rect targetRect)
         {
             return false;
         }
 
-        public IControl GetControlInDirection(NavigationDirection direction, IControl from)
+        public Control GetControlInDirection(NavigationDirection direction, Control from)
         {
             return null;
         }
@@ -134,20 +135,22 @@ namespace CSharpEditor
                         EllipseGeometry geometry = new EllipseGeometry(new Rect(2, i * lineHeight - this.Offset.Y + lineHeight * 0.5 - 6, 12, 12));
                         context.DrawGeometry(BreakpointBrush, null, geometry);
 
-                        Avalonia.Media.FormattedText formattedText = new Avalonia.Media.FormattedText() { Text = Utils.BreakpointMarker, Typeface = this.Editor.Typeface, FontSize = this.Editor.FontSize, TextWrapping = TextWrapping.NoWrap };
-
                         if (this.Editor.Text.Lines[i].Span.Start + breakpointIndex != this.Editor.ActiveBreakpoint)
                         {
+                            Avalonia.Media.FormattedText formattedText = new Avalonia.Media.FormattedText(Utils.BreakpointMarker, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, this.Editor.Typeface, this.Editor.FontSize, Brushes.White);
+
                             context.FillRectangle(BreakpointHighlightBrush, CSharpSourceEditorCaret.Round(new Rect(breakpointIndex * this.Editor.CharacterWidth - this.Offset.X + 41 + this.Editor.LineNumbersWidth, i * lineHeight - this.Offset.Y, Utils.BreakpointMarker.Length * this.Editor.CharacterWidth, lineHeight), new Size(1, 1)));
-                            context.DrawText(Brushes.White, new Point(breakpointIndex * this.Editor.CharacterWidth - this.Offset.X + 41 + this.Editor.LineNumbersWidth, i * lineHeight - this.Offset.Y), formattedText);
+                            context.DrawText(formattedText, new Point(breakpointIndex * this.Editor.CharacterWidth - this.Offset.X + 41 + this.Editor.LineNumbersWidth, i * lineHeight - this.Offset.Y));
                         }
                         else
                         {
+                            Avalonia.Media.FormattedText formattedText = new Avalonia.Media.FormattedText(Utils.BreakpointMarker, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, this.Editor.Typeface, this.Editor.FontSize, Brushes.Black);
+
                             BreakpointArrowGeometry.Transform = new TranslateTransform(2, (i + 0.5) * lineHeight - this.Offset.Y - 6);
                             context.DrawGeometry(ActiveBreakpointBrush, ActiveBreakpointPen, BreakpointArrowGeometry);
 
                             context.FillRectangle(ActiveBreakpointBrush, CSharpSourceEditorCaret.Round(new Rect(breakpointIndex * this.Editor.CharacterWidth - this.Offset.X + 41 + this.Editor.LineNumbersWidth, i * lineHeight - this.Offset.Y, Utils.BreakpointMarker.Length * this.Editor.CharacterWidth, lineHeight), new Size(1, 1)));
-                            context.DrawText(Brushes.Black, new Point(breakpointIndex * this.Editor.CharacterWidth - this.Offset.X + 41 + this.Editor.LineNumbersWidth, i * lineHeight - this.Offset.Y), formattedText);
+                            context.DrawText(formattedText, new Point(breakpointIndex * this.Editor.CharacterWidth - this.Offset.X + 41 + this.Editor.LineNumbersWidth, i * lineHeight - this.Offset.Y));
                         }
                     }
                 }

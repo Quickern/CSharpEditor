@@ -30,7 +30,7 @@ using System.Reactive.Linq;
 
 namespace CSharpEditor
 {
-    internal class ErrorContainer : UserControl
+    internal partial class ErrorContainer : UserControl
     {
         public ErrorContainer()
         {
@@ -46,7 +46,7 @@ namespace CSharpEditor
         internal static Pen WarningPen = new Pen(new SolidColorBrush(Color.FromRgb(64, 160, 64)));
         public void SetContent(SourceText source, IEnumerable<Diagnostic> diagnostics, int linesToIgnore)
         {
-            this.FindControl<StackPanel>("ErrorContainer").Children.Clear();
+            this.FindControl<StackPanel>("f_ErrorContainer").Children.Clear();
 
             int errors = 0;
             int warnings = 0;
@@ -135,7 +135,7 @@ namespace CSharpEditor
                     Grid.SetColumn(lineBlock, 6);
                     errorGrid.Children.Add(lineBlock);
 
-                    this.FindControl<StackPanel>("ErrorContainer").Children.Add(errorGrid);
+                    this.FindControl<StackPanel>("f_ErrorContainer").Children.Add(errorGrid);
 
                     errorGrid.PointerPressed += (s, e) =>
                     {

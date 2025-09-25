@@ -73,11 +73,11 @@
           <Viewbox Height="12" Width="12" VerticalAlignment="Center">
             <icon:ErrorIcon />
           </Viewbox>
-          <TextBlock VerticalAlignment="Center" Margin="5,0,15,0" Name="ErrorCount">0</TextBlock>
+          <TextBlock VerticalAlignment="Center" Margin="5,0,15,0" Name="f_ErrorCount">0</TextBlock>
           <Viewbox Height="12" Width="12" VerticalAlignment="Center">
             <icon:WarningIcon />
           </Viewbox>
-          <TextBlock VerticalAlignment="Center" Margin="5,0,15,0" Name="WarningCount">0</TextBlock>
+          <TextBlock VerticalAlignment="Center" Margin="5,0,15,0" Name="f_WarningCount">0</TextBlock>
           <Viewbox Height="12" Width="12" VerticalAlignment="Center">
             <icon:InfoIcon />
           </Viewbox>

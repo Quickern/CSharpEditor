@@ -28,7 +28,7 @@ using System.Threading.Tasks;
 
 namespace CSharpEditor
 {
-    internal class CSharpSourceEditorControl : UserControl
+    internal partial class CSharpSourceEditorControl : UserControl
     {
         public SyntaxHighlightingModes SyntaxHighlightingMode
         {

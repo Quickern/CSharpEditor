@@ -49,38 +49,38 @@
         <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
       
-      <local:MethodOverloadList HorizontalAlignment="Left" VerticalAlignment="Top" IsVisible="False" Name="MethodOverloadList" ZIndex="99">
+      <local:MethodOverloadList HorizontalAlignment="Left" VerticalAlignment="Top" IsVisible="False" Name="f_MethodOverloadList" ZIndex="99">
       </local:MethodOverloadList>
 
-      <local:CompletionWindow HorizontalAlignment="Left" VerticalAlignment="Top" IsVisible="False" Name="CompletionWindow" ZIndex="100">
+      <local:CompletionWindow HorizontalAlignment="Left" VerticalAlignment="Top" IsVisible="False" Name="f_CompletionWindow" ZIndex="100">
       </local:CompletionWindow>
 
-      <local:SymbolToolTip HorizontalAlignment="Left" VerticalAlignment="Top" IsVisible="False" Name="SymbolToolTip" ZIndex="101"></local:SymbolToolTip>
+      <local:SymbolToolTip HorizontalAlignment="Left" VerticalAlignment="Top" IsVisible="False" Name="f_SymbolToolTip" ZIndex="101"></local:SymbolToolTip>
 
-      <local:StatusBar Grid.Row="1" ZIndex="98" Margin="10, 0, 0, 0" Name="StatusBar"></local:StatusBar>
+      <local:StatusBar Grid.Row="1" ZIndex="98" Margin="10, 0, 0, 0" Name="f_StatusBar"></local:StatusBar>
 
-      <local:CSharpSourceEditorControl Name="EditorControl" Margin="10,10,0,0" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" UseLayoutRounding="True"></local:CSharpSourceEditorControl>
+      <local:CSharpSourceEditorControl Name="f_EditorControl" Margin="10,10,0,0" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" UseLayoutRounding="True"></local:CSharpSourceEditorControl>
     </Grid>
 
     <GridSplitter Grid.Row="1" Height="5" Background="{Binding $parent[1].Background}" Margin="10,0,10,0" IsVisible="False" Name="GridSplitter"></GridSplitter>
 
     <Border BorderThickness="1" BorderBrush="#5d6b99" Grid.Row="2" Margin="9,-1,-1,9" IsVisible="{Binding #GridSplitter.IsVisible}"></Border>
 
-    <local:ErrorContainer Grid.Row="2" Name="ErrorContainer" Margin="10,0,0,10" IsVisible="False">
+    <local:ErrorContainer Grid.Row="2" Name="f_ErrorContainer" Margin="10,0,0,10" IsVisible="False">
 
     </local:ErrorContainer>
 
-    <local:ReferencesContainer Grid.Row="2" Name="ReferencesContainer" Margin="10,0,0,10" IsVisible="False">
+    <local:ReferencesContainer Grid.Row="2" Name="f_ReferencesContainer" Margin="10,0,0,10" IsVisible="False">
 
     </local:ReferencesContainer>
 
-    <local:SaveHistoryContainer Grid.Row="2" Name="SaveHistoryContainer" Margin="10,0,0,10" IsVisible="False">
+    <local:SaveHistoryContainer Grid.Row="2" Name="f_SaveHistoryContainer" Margin="10,0,0,10" IsVisible="False">
 
     </local:SaveHistoryContainer>
 
     <GridSplitter Grid.Column="1" Grid.RowSpan="3" Width="5" Background="{Binding $parent[1].Background}" Margin="0,10,0,10" Name="VerticalGridSplitter" IsVisible="False"></GridSplitter>
 
-    <local:BreakpointPanel Grid.Column="2" Grid.RowSpan="3" Margin="0, 10, 10, 10" Name="BreakpointPanel" IsVisible="False">
+    <local:BreakpointPanel Grid.Column="2" Grid.RowSpan="3" Margin="0, 10, 10, 10" Name="f_BreakpointPanel" IsVisible="False">
       
     </local:BreakpointPanel>
     

@@ -37,7 +37,7 @@ using System.Xml.Linq;
 
 namespace CSharpEditor
 {
-    internal class ReferencesContainer : UserControl
+    internal partial class ReferencesContainer : UserControl
     {
         public ImmutableList<MetadataReference> References;
 
@@ -57,7 +57,7 @@ namespace CSharpEditor
         {
             References = references;
 
-            this.FindControl<StackPanel>("ReferencesContainer").Children.Clear();
+            this.FindControl<StackPanel>("f_ReferencesContainer").Children.Clear();
 
             ToggleButton coreReferencesButton = this.FindControl<ToggleButton>("CoreReferencesButton");
             ToggleButton additionalReferencesButton = this.FindControl<ToggleButton>("AdditionalReferencesButton");
@@ -140,13 +140,13 @@ namespace CSharpEditor
             Grid.SetColumn(documentationStatus, 4);
             referenceGrid.Children.Add(documentationStatus);
 
-            this.FindControl<StackPanel>("ReferencesContainer").Children.Add(referenceGrid);
+            this.FindControl<StackPanel>("f_ReferencesContainer").Children.Add(referenceGrid);
 
             referenceGrid.Tag = reference;
 
             removeButton.Click += async (s, e) =>
             {
-                this.FindControl<StackPanel>("ReferencesContainer").Children.Remove(referenceGrid);
+                this.FindControl<StackPanel>("f_ReferencesContainer").Children.Remove(referenceGrid);
 
 
                 if (!(referenceGrid.Tag is MetadataReference referenceToRemove))

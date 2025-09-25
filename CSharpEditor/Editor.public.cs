@@ -767,7 +767,7 @@ namespace CSharpEditor
             {
                 Control referenceGrid = null;
 
-                foreach (Control ctrl in this.ReferencesContainer.FindControl<StackPanel>("ReferencesContainer").Children)
+                foreach (Control ctrl in this.ReferencesContainer.FindControl<StackPanel>("f_ReferencesContainer").Children)
                 {
                     if (ctrl.Tag == reference)
                     {
@@ -776,7 +776,7 @@ namespace CSharpEditor
                     }
                 }
 
-                this.ReferencesContainer.FindControl<StackPanel>("ReferencesContainer").Children.Remove(referenceGrid);
+                this.ReferencesContainer.FindControl<StackPanel>("f_ReferencesContainer").Children.Remove(referenceGrid);
             }
 
             this.ReferencesContainer.References = this.ReferencesContainer.References.RemoveRange(references);

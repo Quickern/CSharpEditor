@@ -145,7 +145,7 @@ namespace CSharpEditor
             this.CompilationOptions = compilationOptions;
             this.Guid = guid;
 
-            EditorControl = this.FindControl<CSharpSourceEditorControl>("EditorControl");
+            EditorControl = this.FindControl<CSharpSourceEditorControl>("f_EditorControl");
 
             await EditorControl.SetText(sourceText);
 
@@ -158,21 +158,21 @@ namespace CSharpEditor
             OriginalTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             CompletionService service = CompletionService.GetService(OriginalDocument);
 
-            this.FindControl<CompletionWindow>("CompletionWindow").Document = OriginalDocument;
-            this.FindControl<CompletionWindow>("CompletionWindow").CompletionService = service;
+            this.FindControl<CompletionWindow>("f_CompletionWindow").Document = OriginalDocument;
+            this.FindControl<CompletionWindow>("f_CompletionWindow").CompletionService = service;
 
-            this.CompletionWindow = this.FindControl<CompletionWindow>("CompletionWindow");
-            this.MethodOverloadList = this.FindControl<MethodOverloadList>("MethodOverloadList");
+            this.CompletionWindow = this.FindControl<CompletionWindow>("f_CompletionWindow");
+            this.MethodOverloadList = this.FindControl<MethodOverloadList>("f_MethodOverloadList");
 
-            this.FindControl<MethodOverloadList>("MethodOverloadList").Document = OriginalDocument;
+            this.FindControl<MethodOverloadList>("f_MethodOverloadList").Document = OriginalDocument;
 
-            this.FindControl<CompletionWindow>("CompletionWindow").Committed += CompletionCommitted;
+            this.FindControl<CompletionWindow>("f_CompletionWindow").Committed += CompletionCommitted;
 
-            StatusBar = this.FindControl<StatusBar>("StatusBar");
+            StatusBar = this.FindControl<StatusBar>("f_StatusBar");
 
-            ErrorContainer = this.FindControl<ErrorContainer>("ErrorContainer");
-            ReferencesContainer = this.FindControl<ReferencesContainer>("ReferencesContainer");
-            SaveHistoryContainer = this.FindControl<SaveHistoryContainer>("SaveHistoryContainer");
+            ErrorContainer = this.FindControl<ErrorContainer>("f_ErrorContainer");
+            ReferencesContainer = this.FindControl<ReferencesContainer>("f_ReferencesContainer");
+            SaveHistoryContainer = this.FindControl<SaveHistoryContainer>("f_SaveHistoryContainer");
             SettingsContainer = new SettingsContainer(additionalShortcuts) { Margin = new Thickness(10, 0, 0, 10), IsVisible = false };
             Grid.SetRow(SettingsContainer, 2);
             this.FindControl<Grid>("ContainerGrid").Children.Add(SettingsContainer);
@@ -185,10 +185,10 @@ namespace CSharpEditor
 
             this.CompilationErrorChecker = CompilationErrorChecker.Attach(this);
 
-            this.SymbolToolTip = this.FindControl<SymbolToolTip>("SymbolToolTip");
+            this.SymbolToolTip = this.FindControl<SymbolToolTip>("f_SymbolToolTip");
             this.SymbolToolTip.References = References;
 
-            this.BreakpointPanel = this.FindControl<BreakpointPanel>("BreakpointPanel");
+            this.BreakpointPanel = this.FindControl<BreakpointPanel>("f_BreakpointPanel");
 
             string autosaveDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Assembly.GetEntryAssembly().GetName().Name);
             Directory.CreateDirectory(Path.Combine(autosaveDirectory, Guid));
@@ -196,7 +196,7 @@ namespace CSharpEditor
             SaveDirectory = Path.Combine(autosaveDirectory, Guid);
             this.AutoSaver = AutoSaver.Start(this, AutoSaveFile);
 
-            InputHandler = new InputHandler(this, EditorControl, this.FindControl<CompletionWindow>("CompletionWindow"), this.FindControl<MethodOverloadList>("MethodOverloadList"), service);
+            InputHandler = new InputHandler(this, EditorControl, this.FindControl<CompletionWindow>("f_CompletionWindow"), this.FindControl<MethodOverloadList>("f_MethodOverloadList"), service);
             EditorControl.ToggleBreakpoint += async (s, e) =>
             {
                 await this.TryToggleBreakpoint(e.LineStart, e.LineEnd);
@@ -478,7 +478,7 @@ namespace CSharpEditor
 
                     SettingsContainer.FindControl<NumericUpDown>("AutosaveIntervalBox").Value = settings.AutosaveInterval / 1000;
                     SettingsContainer.FindControl<CheckBox>("KeepSaveHistoryBox").IsChecked = settings.KeepSaveHistory;
-                    SettingsContainer.FindControl<ComboBox>("SyntaxHighlightingModeBox").SelectedItem = ((AvaloniaList<object>)SettingsContainer.FindControl<ComboBox>("SyntaxHighlightingModeBox").Items)[(int)settings.SyntaxHighlightingMode];
+                    SettingsContainer.FindControl<ComboBox>("SyntaxHighlightingModeBox").SelectedItem = SettingsContainer.FindControl<ComboBox>("SyntaxHighlightingModeBox").Items[(int)settings.SyntaxHighlightingMode];
                     SettingsContainer.FindControl<CheckBox>("OpenSuggestionsBox").IsChecked = settings.AutoOpenSuggestionts;
                     SettingsContainer.FindControl<CheckBox>("OpenParametersBox").IsChecked = settings.AutoOpenParameters;
                     SettingsContainer.FindControl<CheckBox>("AutoFormatBox").IsChecked = settings.AutoFormat;
@@ -513,7 +513,7 @@ namespace CSharpEditor
 
             await EditorControl.SetText(EditorControl.Text.WithChanges(new TextChange(correctedSpan, insertionText)));
             EditorControl.CaretOffset = correctedSpan.Start + insertionText.Length;
-            this.FindControl<CompletionWindow>("CompletionWindow").IsVisible = false;
+            this.FindControl<CompletionWindow>("f_CompletionWindow").IsVisible = false;
         }
 
         /// <inheritdoc/>

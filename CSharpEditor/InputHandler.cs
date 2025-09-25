@@ -17,6 +17,7 @@
 */
 
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
 using DiffPlex.Model;
@@ -522,7 +523,7 @@ namespace CSharpEditor
                         }
                     }
 
-                    double availableBottom = EditorControl.Parent.Bounds.Height - yTop - 10;
+                    double availableBottom = ((Control)EditorControl.Parent).Bounds.Height - yTop - 10;
                     double availableTop = yBottom - 10;
 
                     double requestedHeight = Math.Min(9, completion.ItemsList.Count) * 20 + 33;

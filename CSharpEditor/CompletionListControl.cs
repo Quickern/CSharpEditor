@@ -25,6 +25,7 @@ using Avalonia.VisualTree;
 using Microsoft.CodeAnalysis.Completion;
 using System;
 using System.Collections.Immutable;
+using System.Globalization;
 using System.Linq;
 
 namespace CSharpEditor
@@ -159,8 +160,8 @@ namespace CSharpEditor
 
             for (int i = 0; i < Items.Count; i++)
             {
-                Avalonia.Media.FormattedText fmt = new Avalonia.Media.FormattedText() { Text = Items[i].item.DisplayTextPrefix + Items[i].item.DisplayText + Items[i].item.DisplayTextSuffix, Typeface = face, FontSize = this.FontSize };
-                maxWidth = Math.Max(maxWidth, fmt.Bounds.Width);
+                Avalonia.Media.FormattedText fmt = new Avalonia.Media.FormattedText(Items[i].item.DisplayTextPrefix + Items[i].item.DisplayText + Items[i].item.DisplayTextSuffix, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, face, this.FontSize, Brushes.Black);
+                maxWidth = Math.Max(maxWidth, fmt.Width);
             }
 
             this.MaxItemTextWidth = maxWidth;
@@ -196,32 +197,32 @@ namespace CSharpEditor
 
                     if (!string.IsNullOrEmpty(Items[i].item.DisplayTextPrefix))
                     {
-                        Avalonia.Media.FormattedText prefix = new Avalonia.Media.FormattedText() { Text = Items[i].item.DisplayTextPrefix, Typeface = face, FontSize = this.FontSize };
-                        context.DrawText(Brushes.Black, new Point(x, index * 20), prefix);
-                        x += prefix.Bounds.Width;
+                        Avalonia.Media.FormattedText prefix = new Avalonia.Media.FormattedText(Items[i].item.DisplayTextPrefix, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, face, this.FontSize, Brushes.Black);
+                        context.DrawText(prefix, new Point(x, index * 20));
+                        x += prefix.Width;
                     }
 
                     if (Filter != null && Items[i].item.DisplayText.StartsWith(Filter, StringComparison.OrdinalIgnoreCase))
                     {
-                        Avalonia.Media.FormattedText filter = new Avalonia.Media.FormattedText() { Text = Items[i].item.DisplayText.Substring(0, Filter.Length), Typeface = boldFace, FontSize = this.FontSize };
-                        context.DrawText(Brushes.Black, new Point(x, index * 20), filter);
-                        x += filter.Bounds.Width;
+                        Avalonia.Media.FormattedText filter = new Avalonia.Media.FormattedText(Items[i].item.DisplayText.Substring(0, Filter.Length), CultureInfo.InvariantCulture, FlowDirection.LeftToRight, boldFace, this.FontSize, Brushes.Black);
+                        context.DrawText(filter, new Point(x, index * 20));
+                        x += filter.Width;
 
-                        Avalonia.Media.FormattedText name = new Avalonia.Media.FormattedText() { Text = Items[i].item.DisplayText.Substring(Filter.Length), Typeface = face, FontSize = this.FontSize };
-                        context.DrawText(Brushes.Black, new Point(x, index * 20), name);
-                        x += name.Bounds.Width;
+                        Avalonia.Media.FormattedText name = new Avalonia.Media.FormattedText(Items[i].item.DisplayText.Substring(Filter.Length), CultureInfo.InvariantCulture, FlowDirection.LeftToRight, face, this.FontSize, Brushes.Black);
+                        context.DrawText(name, new Point(x, index * 20));
+                        x += name.Width;
                     }
                     else
                     {
-                        Avalonia.Media.FormattedText name = new Avalonia.Media.FormattedText() { Text = Items[i].item.DisplayText, Typeface = face, FontSize = this.FontSize };
-                        context.DrawText(Brushes.Black, new Point(x, index * 20), name);
-                        x += name.Bounds.Width;
+                        Avalonia.Media.FormattedText name = new Avalonia.Media.FormattedText(Items[i].item.DisplayText, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, face, this.FontSize, Brushes.Black);
+                        context.DrawText(name, new Point(x, index * 20));
+                        x += name.Width;
                     }
 
                     if (!string.IsNullOrEmpty(Items[i].item.DisplayTextSuffix))
                     {
-                        Avalonia.Media.FormattedText suffix = new Avalonia.Media.FormattedText() { Text = Items[i].item.DisplayTextSuffix, Typeface = face, FontSize = this.FontSize };
-                        context.DrawText(Brushes.Black, new Point(x, index * 20), suffix);
+                        Avalonia.Media.FormattedText suffix = new Avalonia.Media.FormattedText(Items[i].item.DisplayTextSuffix, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, face, this.FontSize, Brushes.Black);
+                        context.DrawText(suffix, new Point(x, index * 20));
                     }
 
                     index++;
