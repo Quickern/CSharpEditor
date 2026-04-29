@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Authors>Giorgio Bianchini</Authors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Company>University of Bristol</Company>
@@ -12,18 +12,10 @@
     <PackageProjectUrl>https://github.com/arklumpus/CSharpEditor</PackageProjectUrl>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
   <ItemGroup>
     <None Remove="IntellisenseIconsPNG\EnumMemberIcon.png" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <None Include="..\icon.png">
       <Pack>true</Pack>
@@ -60,17 +52,17 @@
     <EmbeddedResource Include="xmldocs.dll.list" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.0.5" />
-    <PackageReference Include="Avalonia.Desktop" Version="11.0.5" />
-    <PackageReference Include="DiffPlex" Version="1.7.1" />
+    <PackageReference Include="Avalonia" Version="11.3.14" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.14" />
+    <PackageReference Include="DiffPlex" Version="1.9.0" />
     <PackageReference Include="IntellisenseIcon" Version="1.2.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.4.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.4.0" />
-    <PackageReference Include="System.CodeDom" Version="7.0.0" />
-    <PackageReference Include="System.Reactive" Version="6.0.2" />
-    <PackageReference Include="System.Reflection.MetadataLoadContext" Version="7.0.0" />
-    <PackageReference Include="System.Text.Json" Version="7.0.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.3.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="5.3.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.3.0" />
+    <PackageReference Include="System.CodeDom" Version="10.0.7" />
+    <PackageReference Include="System.Reactive" Version="6.1.0" />
+    <PackageReference Include="System.Reflection.MetadataLoadContext" Version="10.0.7" />
+    <PackageReference Include="System.Text.Json" Version="10.0.7" />
     <PackageReference Include="VectSharp.Canvas" Version="2.8.0" />
   </ItemGroup>
 </Project>
