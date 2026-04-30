@@ -2,7 +2,7 @@
     CSharpEditor - A C# source code editor with syntax highlighting, intelligent
     code completion and real-time compilation error checking.
     Copyright (C) 2021  Giorgio Bianchini
- 
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, version 3.
@@ -266,7 +266,7 @@ namespace CSharpEditor
         public int CompilationTimeout => this.CompilationErrorChecker.MillisecondsInterval;
 
         /// <summary>
-        /// The list of <see cref="MetadataReference"/>s for which the compiled assembly will have bindings. 
+        /// The list of <see cref="MetadataReference"/>s for which the compiled assembly will have bindings.
         /// </summary>
         public ImmutableList<MetadataReference> References { get; private set; }
 
@@ -560,7 +560,7 @@ namespace CSharpEditor
             {
                 List<(TextSpan, bool)> validBreakpoints = new List<(TextSpan, bool)>();
 
-                foreach (int i in source.AllIndicesOf(Utils.BreakpointMarker))
+                foreach (int i in Enumerable.Empty<int>())//source.AllIndicesOf(Utils.BreakpointMarker))
                 {
                     SyntaxNode node = tree.GetRoot().FindNode(new TextSpan(i, 1));
 

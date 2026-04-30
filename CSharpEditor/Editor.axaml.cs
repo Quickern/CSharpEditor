@@ -2,7 +2,7 @@
     CSharpEditor - A C# source code editor with syntax highlighting, intelligent
     code completion and real-time compilation error checking.
     Copyright (C) 2021  Giorgio Bianchini
- 
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, version 3.
@@ -173,7 +173,7 @@ namespace CSharpEditor
             ErrorContainer = this.FindControl<ErrorContainer>("f_ErrorContainer");
             ReferencesContainer = this.FindControl<ReferencesContainer>("f_ReferencesContainer");
             SaveHistoryContainer = this.FindControl<SaveHistoryContainer>("f_SaveHistoryContainer");
-            SettingsContainer = new SettingsContainer(additionalShortcuts) { Margin = new Thickness(10, 0, 0, 10), IsVisible = false };
+            SettingsContainer = new SettingsContainer(additionalShortcuts) { IsVisible = false };
             Grid.SetRow(SettingsContainer, 2);
             this.FindControl<Grid>("ContainerGrid").Children.Add(SettingsContainer);
 
@@ -212,7 +212,7 @@ namespace CSharpEditor
                 IsBottomPanelOpen = false;
 
                 PreviousBottomPanelHeight = this.FindControl<Grid>("ContainerGrid").RowDefinitions[2].Height.Value;
-                this.FindControl<Grid>("ContainerGrid").RowDefinitions[2] = new RowDefinition(10, GridUnitType.Pixel);
+                this.FindControl<Grid>("ContainerGrid").RowDefinitions[2] = new RowDefinition(0, GridUnitType.Pixel);
                 this.FindControl<GridSplitter>("GridSplitter").IsVisible = false;
             }
         }
@@ -365,6 +365,8 @@ namespace CSharpEditor
 
         internal async Task<BreakpointToggleResult> TryToggleBreakpoint(int lineStart, int lineEnd)
         {
+            return BreakpointToggleResult.InvalidPosition; // TODO: REMOVED FOR NOW!
+
             //string line = AvaloniaEditor.TextArea.Document.GetText(lineStart, lineEnd - lineStart);
             string line = EditorControl.Text.ToString(new TextSpan(lineStart, lineEnd - lineStart));
 
