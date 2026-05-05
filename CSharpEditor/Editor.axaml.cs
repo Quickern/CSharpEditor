@@ -458,7 +458,7 @@ namespace CSharpEditor
 
             string serialized = JsonSerializer.Serialize(settings);
 
-            string settingsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CSharpEditor");
+            string settingsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Assembly.GetEntryAssembly().GetName().Name);
 
             Directory.CreateDirectory(settingsDirectory);
 
@@ -467,7 +467,7 @@ namespace CSharpEditor
 
         internal void LoadSettings()
         {
-            string settingsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CSharpEditor");
+            string settingsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Assembly.GetEntryAssembly().GetName().Name);
 
             if (File.Exists(Path.Combine(settingsDirectory, "settings.json")))
             {
