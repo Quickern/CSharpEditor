@@ -20,6 +20,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Input.Platform;
 using Avalonia.Media;
 using Avalonia.Threading;
 using Microsoft.CodeAnalysis;
@@ -1808,7 +1809,8 @@ namespace CSharpEditor
                 }
                 else if (((e.Key == Key.V && e.KeyModifiers == Utils.ControlCmdModifier) || (e.Key == Key.Insert && e.KeyModifiers == KeyModifiers.Shift)) && !this.IsReadOnly)
                 {
-                    string text = await TopLevel.GetTopLevel(this).Clipboard.GetTextAsync();
+
+                    string text = await TopLevel.GetTopLevel(this).Clipboard.TryGetTextAsync();
 
                     if (text != null)
                     {

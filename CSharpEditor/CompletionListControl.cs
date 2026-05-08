@@ -2,7 +2,7 @@
     CSharpEditor - A C# source code editor with syntax highlighting, intelligent
     code completion and real-time compilation error checking.
     Copyright (C) 2021  Giorgio Bianchini
- 
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, version 3.
@@ -54,7 +54,7 @@ namespace CSharpEditor
         {
             WriteableBitmap bmp = new WriteableBitmap(new PixelSize(16, 16), new Vector(72, 72), Avalonia.Platform.PixelFormat.Bgra8888, Avalonia.Platform.AlphaFormat.Opaque);
 
-            
+
         }*/
 
         private ImmutableList<(IconTypes icon, CompletionItem item)> _items;
@@ -233,7 +233,7 @@ namespace CSharpEditor
         private void DrawIcon(Control icon, double x, double y, DrawingContext context)
         {
             icon.Measure(new Size(16, 16));
-            using (context.PushPreTransform(Matrix.CreateTranslation(x, y)))
+            using (context.PushTransform(Matrix.CreateTranslation(x, y)))
             {
                 foreach (Control ctrl in icon.GetVisualDescendants())
                 {

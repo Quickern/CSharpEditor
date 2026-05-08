@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace CSharpEditor;
 
-public static class SaveHelper
+internal static class SaveHelper
 {
-    internal static IEnumerable<(long Timestamp, string File)> GetSortedFiles(string directory)
+    public static IEnumerable<(long Timestamp, string File)> GetSortedFiles(string directory)
     {
         string[] files;
 

@@ -2,7 +2,7 @@
     CSharpEditor - A C# source code editor with syntax highlighting, intelligent
     code completion and real-time compilation error checking.
     Copyright (C) 2021  Giorgio Bianchini
- 
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, version 3.
@@ -21,6 +21,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Platform.Storage;
 using Avalonia.VisualTree;
 using Microsoft.CodeAnalysis;
 using System;
@@ -179,35 +180,28 @@ namespace CSharpEditor
 
         private async Task DocumentationButtonClicked(MetadataReference reference, Canvas documentationIcon, Grid referenceGrid)
         {
-            OpenFileDialog dialog;
-
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            TopLevel topLevel = TopLevel.GetTopLevel(this);
+            if (topLevel == null)
             {
-                dialog = new OpenFileDialog()
+                return;
+            }
+
+            IReadOnlyList<IStorageFile> result = await topLevel.StorageProvider.OpenFilePickerAsync(
+                new FilePickerOpenOptions
                 {
                     Title = "Add documentation...",
                     AllowMultiple = false,
-                    Filters = new List<FileDialogFilter>() { new FileDialogFilter() { Name = "XML documentation", Extensions = new List<string>() { "xml" } }, new FileDialogFilter() { Name = "All files", Extensions = new List<string>() { "*" } } }
-                };
-            }
-            else
-            {
-                dialog = new OpenFileDialog()
-                {
-                    Title = "Add documentation...",
-                    AllowMultiple = false
-                };
-            }
+                    FileTypeFilter = [ FilePickerFileTypes.Xml, FilePickerFileTypes.All ]
+                }
+            );
 
-            string[] result = await dialog.ShowAsync(this.FindAncestorOfType<Window>());
-
-            if (result != null && result.Length == 1)
+            if (result != null && result.Count == 1)
             {
                 try
                 {
                     List<string> describedMembers = new List<string>();
 
-                    XDocument doc = XDocument.Load(result[0]);
+                    XDocument doc = XDocument.Load(await result[0].OpenReadAsync());
 
                     foreach (XElement element in doc.Descendants("member"))
                     {
@@ -255,7 +249,7 @@ namespace CSharpEditor
 
                     await ShowDialog("Documentation analysis", "The documentation file describes " + foundTypes.ToString() + " types out of " + totalTypes + " contained in the assembly.", DialogIcon.Info);
 
-                    CachedMetadataReference newReference = CachedMetadataReference.CreateFromFile(reference.Display, result[0]);
+                    CachedMetadataReference newReference = CachedMetadataReference.CreateFromFile(reference.Display, result[0].Path.AbsolutePath);
 
                     References = References.Replace(reference, newReference);
 
@@ -278,34 +272,34 @@ namespace CSharpEditor
 
         private async void AddReferenceClicked(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog dialog;
-
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            TopLevel topLevel = TopLevel.GetTopLevel(this);
+            if (topLevel == null)
             {
-                dialog = new OpenFileDialog()
+                return;
+            }
+
+            IEnumerable<FilePickerFileType> GetTypes()
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    yield return new FilePickerFileType("Component files") { Patterns = [ "*.exe", "*.dll", "*.tlb", "*.olb", "*.ocx", "*.winmd" ] };
+                yield return FilePickerFileTypes.All;
+            }
+
+            IReadOnlyList<IStorageFile> result = await topLevel.StorageProvider.OpenFilePickerAsync(
+                new FilePickerOpenOptions
                 {
                     Title = "Add reference...",
                     AllowMultiple = false,
-                    Filters = new List<FileDialogFilter>() { new FileDialogFilter() { Name = "Component files", Extensions = new List<string>() { "exe", "dll", "tlb", "olb", "ocx", "winmd" } }, new FileDialogFilter() { Name = "All files", Extensions = new List<string>() { "*" } } }
-                };
-            }
-            else
+                    FileTypeFilter = [..GetTypes()]
+                }
+            );
+
+            if (result != null && result.Count == 1)
             {
-                dialog = new OpenFileDialog()
-                {
-                    Title = "Add reference...",
-                    AllowMultiple = false
-                };
-            }
+                string relativeToWorkingDir = RelativePath.GetRelativePath(Environment.CurrentDirectory, result[0].Path.AbsolutePath);
+                string relativeToExecutable = RelativePath.GetRelativePath(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), result[0].Path.AbsolutePath);
 
-            string[] result = await dialog.ShowAsync(this.FindAncestorOfType<Window>());
-
-            if (result != null && result.Length == 1)
-            {
-                string relativeToWorkingDir = RelativePath.GetRelativePath(Environment.CurrentDirectory, result[0]);
-                string relativeToExecutable = RelativePath.GetRelativePath(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), result[0]);
-
-                string path = result[0];
+                string path = result[0].Path.AbsolutePath;
 
                 if (relativeToWorkingDir.Length < path.Length)
                 {
@@ -334,7 +328,7 @@ namespace CSharpEditor
 
                     using (MetadataLoadContext context = new MetadataLoadContext(new PathAssemblyResolver(uniquePaths), typeof(object).Assembly.FullName))
                     {
-                        Assembly ass = context.LoadFromAssemblyPath(result[0]);
+                        Assembly ass = context.LoadFromAssemblyPath(result[0].Path.AbsolutePath);
                     }
 
                     CachedMetadataReference reference = CachedMetadataReference.CreateFromFile(path);
