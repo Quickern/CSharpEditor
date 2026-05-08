@@ -696,27 +696,31 @@ namespace CSharpEditor
             return comp;
         }
 
+        private string _lastSaveText;
+
         /// <summary>
         /// Add the current text of the document to the save history (if enabled) and invoke the <see cref="SaveRequested"/> event.
         /// </summary>
         public void Save()
         {
-            string text = this.EditorControl.Text.ToString();
+            string text = EditorControl.Text.ToString();
+            if (_lastSaveText == text)
+                return;
+            _lastSaveText = text;
 
             if (KeepSaveHistory)
             {
-                string autosaveDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Assembly.GetEntryAssembly().GetName().Name);
-                Directory.CreateDirectory(Path.Combine(autosaveDirectory, this.Guid));
-                System.IO.File.WriteAllText(System.IO.Path.Combine(autosaveDirectory, this.Guid, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString() + ".cs"), text);
+                Directory.CreateDirectory(SaveDirectory);
+                File.WriteAllText(Path.Combine(SaveDirectory, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString() + ".cs"), text);
             }
 
-            this.UpdateLastSavedDocument();
-            if (this.SaveHistoryContainer.IsVisible)
+            UpdateLastSavedDocument();
+            if (SaveHistoryContainer.IsVisible)
             {
-                this.SaveHistoryContainer.Refresh();
+                SaveHistoryContainer.Refresh();
             }
 
-            this.InvokeSaveRequested(new SaveEventArgs(text));
+            InvokeSaveRequested(new SaveEventArgs(text));
         }
 
         /// <summary>

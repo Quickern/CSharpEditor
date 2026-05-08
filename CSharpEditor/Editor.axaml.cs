@@ -191,9 +191,9 @@ namespace CSharpEditor
             this.BreakpointPanel = this.FindControl<BreakpointPanel>("f_BreakpointPanel");
 
             string autosaveDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Assembly.GetEntryAssembly().GetName().Name);
-            Directory.CreateDirectory(Path.Combine(autosaveDirectory, Guid));
-            AutoSaveFile = Path.Combine(autosaveDirectory, Guid, "autosave_" + System.Guid.NewGuid().ToString("N") + ".cs");
             SaveDirectory = Path.Combine(autosaveDirectory, Guid);
+            Directory.CreateDirectory(SaveDirectory);
+            AutoSaveFile = Path.Combine(SaveDirectory, "autosave_" + System.Guid.NewGuid().ToString("N") + ".cs");
             this.AutoSaver = AutoSaver.Start(this, AutoSaveFile);
 
             InputHandler = new InputHandler(this, EditorControl, this.FindControl<CompletionWindow>("f_CompletionWindow"), this.FindControl<MethodOverloadList>("f_MethodOverloadList"), service);

@@ -2,7 +2,7 @@
     CSharpEditor - A C# source code editor with syntax highlighting, intelligent
     code completion and real-time compilation error checking.
     Copyright (C) 2021  Giorgio Bianchini
- 
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, version 3.
@@ -28,6 +28,8 @@ namespace CSharpEditor
         public EventWaitHandle ExitHandle { get; }
         public int MillisecondsInterval { get; set; } = 10000;
         public string AutoSaveFile { get; }
+
+        private string _lastText;
 
         private readonly object StatusObject = new object();
 
@@ -69,53 +71,54 @@ namespace CSharpEditor
 
         private AutoSaver(Editor editor, string autoSaveFile)
         {
-            this.Editor = editor;
-            this.ExitHandle = new EventWaitHandle(false, EventResetMode.ManualReset);
-            this.AutoSaveFile = autoSaveFile;
+            Editor = editor;
+            _lastText = Editor.EditorControl.Text.ToString();
+
+            ExitHandle = new EventWaitHandle(false, EventResetMode.ManualReset);
+            AutoSaveFile = autoSaveFile;
             LoopThread = new Thread(SaverLoop);
             LoopThread.Start();
         }
 
         private async void SaverLoop()
         {
-            this.IsRunning = true;
-            
+            IsRunning = true;
+
             while (!ExitHandle.WaitOne(MillisecondsInterval))
             {
                 await AutoSave();
             }
 
-            this.IsRunning = false;
+            IsRunning = false;
         }
 
         private async Task AutoSave()
         {
             if (Editor.AccessType == Editor.AccessTypes.ReadWrite)
             {
-                string text = null;
-
-                await Dispatcher.UIThread.InvokeAsync(() =>
-                {
-                    text = this.Editor.EditorControl.Text.ToString();
-                });
+                string text = await Dispatcher.UIThread.InvokeAsync(() => Editor.EditorControl.Text.ToString());
+                if (text == _lastText)
+                    return;
 
                 try
                 {
-                    System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(this.AutoSaveFile));
-                    System.IO.File.WriteAllText(this.AutoSaveFile, text);
+                    System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(AutoSaveFile));
+                    System.IO.File.WriteAllText(AutoSaveFile, text);
+
+                    _lastText = text;
                 }
                 catch { }
 
 
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    if (this.Editor.SaveHistoryContainer.IsVisible)
+                    if (Editor.SaveHistoryContainer.IsVisible)
                     {
-                        this.Editor.SaveHistoryContainer.Refresh();
+                        Editor.SaveHistoryContainer.Refresh();
                     }
                 });
 
-                this.Editor.InvokeAutosave(new SaveEventArgs(text));
+                Editor.InvokeAutosave(new SaveEventArgs(text));
             }
         }
     }
