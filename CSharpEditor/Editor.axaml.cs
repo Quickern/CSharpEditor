@@ -145,7 +145,25 @@ namespace CSharpEditor
             this.CompilationOptions = compilationOptions;
             this.Guid = guid;
 
+            string autosaveDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Assembly.GetEntryAssembly().GetName().Name);
+            SaveDirectory = Path.Combine(autosaveDirectory, Guid);
+            Directory.CreateDirectory(SaveDirectory);
+
             EditorControl = this.FindControl<CSharpSourceEditorControl>("f_EditorControl");
+
+            if (sourceText == null)
+            {
+                (long _, string file) = SaveHelper.GetSortedFiles(SaveDirectory).FirstOrDefault();
+                try
+                {
+                    sourceText = await File.ReadAllTextAsync(file);
+                }
+                catch (Exception ex)
+                {
+                    // TODO: What we do in this case?
+                    Console.WriteLine(ex);
+                }
+            }
 
             await EditorControl.SetText(sourceText);
 
@@ -190,9 +208,6 @@ namespace CSharpEditor
 
             this.BreakpointPanel = this.FindControl<BreakpointPanel>("f_BreakpointPanel");
 
-            string autosaveDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Assembly.GetEntryAssembly().GetName().Name);
-            SaveDirectory = Path.Combine(autosaveDirectory, Guid);
-            Directory.CreateDirectory(SaveDirectory);
             AutoSaveFile = Path.Combine(SaveDirectory, "autosave_" + System.Guid.NewGuid().ToString("N") + ".cs");
             this.AutoSaver = AutoSaver.Start(this, AutoSaveFile);
 

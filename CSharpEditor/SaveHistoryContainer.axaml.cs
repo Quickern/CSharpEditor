@@ -2,7 +2,7 @@
     CSharpEditor - A C# source code editor with syntax highlighting, intelligent
     code completion and real-time compilation error checking.
     Copyright (C) 2021  Giorgio Bianchini
- 
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, version 3.
@@ -62,24 +62,7 @@ namespace CSharpEditor
             this.FindControl<StackPanel>("FileContainer").Children.Clear();
             Editor editor = this.FindAncestorOfType<Editor>();
 
-            string autosaveDirectory = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Assembly.GetEntryAssembly().GetName().Name);
-            string savePath = System.IO.Path.Combine(autosaveDirectory, editor.Guid);
-
-            string[] files;
-
-            try
-            {
-                files = System.IO.Directory.GetFiles(savePath, "*.cs");
-            }
-            catch
-            {
-                files = new string[0];
-            }
-            
-
-            long result = -1;
-
-            List<(long, string)> sortedFiles = (from el in files let filename = System.IO.Path.GetFileNameWithoutExtension(el) where filename.StartsWith("autosave") || long.TryParse(filename, out result) let result2 = result orderby !filename.StartsWith("autosave") ? result2 : ((DateTimeOffset)new System.IO.FileInfo(el).LastWriteTimeUtc).ToUnixTimeSeconds() descending select !filename.StartsWith("autosave") ? (result2, el) : (((DateTimeOffset)new System.IO.FileInfo(el).LastWriteTimeUtc).ToUnixTimeSeconds(), el)).ToList();
+            List<(long, string)> sortedFiles = SaveHelper.GetSortedFiles(editor.SaveDirectory).ToList();
 
             sortedFiles.Add((editor.OriginalTimeStamp, "original"));
             sortedFiles.Sort((a, b) => Math.Sign(b.Item1 - a.Item1));
