@@ -153,7 +153,7 @@ namespace CSharpEditor
                     currPos = lineCount;
                 }
 
-                Page diff = new Page(diffWidth, 20);
+                VectSharp.Page diff = new VectSharp.Page(diffWidth, 20);
                 Graphics gpr = diff.Graphics;
 
                 double currX = 0;

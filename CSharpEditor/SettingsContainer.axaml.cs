@@ -2,7 +2,7 @@
     CSharpEditor - A C# source code editor with syntax highlighting, intelligent
     code completion and real-time compilation error checking.
     Copyright (C) 2021  Giorgio Bianchini
- 
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, version 3.
@@ -18,6 +18,7 @@
 
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input.Platform;
 using Avalonia.Markup.Xaml;
 using Avalonia.VisualTree;
 using DiffPlex.Model;
@@ -282,7 +283,7 @@ namespace CSharpEditor
         public bool AutoOpenSuggestionts { get; set; }
         public bool AutoOpenParameters { get; set; }
         public bool AutoFormat { get; set; }
-        
+
         public int CompilationTimeout { get; set; }
         public bool ShowChangedLines { get; set; }
         public bool ShowScrollbarOverview { get; set; }
